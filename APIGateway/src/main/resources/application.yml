@@ -1,0 +1,36 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/products/**
+
+        - id: RATING-SERVICE
+          uri: lb://RATING-SERVICE
+          predicates:
+            - Path=/ratings/**
+
+  config:
+    import: configserver:http://localhost:8085
+
+okta:
+  oauth2:
+    issuer: https://dev-54286080.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oadgpwrxojimpSmh5d7
+    client-secret: mtdh6g_GdKW7OqtH37bjAjmRhv3NxDqu999EGuLtZlurYSDTavyE-WitbY3Iqsbf
+    scopes: openid, profile, email, offline_access
+
+
